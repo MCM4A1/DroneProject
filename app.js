@@ -26,13 +26,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 //For non existing paths
 //app.use('/static', express.static('public'))
 
-//Test Responses
+//Responses
 app.get('/', function (req, res) {
     res.render('FrontEnd/index')
   })
 
 app.get('/settings', function (req, res) {
     res.render('FrontEnd/settings')
+  })
+app.get('/mydrone', function (req, res) {
+    res.render('FrontEnd/my-drone')
+  })
+app.get('/history', function (req, res) {
+    res.render('FrontEnd/history-page')
+  })
+  app.get('/rawdata', function (req, res) {
+      res.render('FrontEnd/backend-data')
+    })
+app.get('/control', function (req, res) {
+    res.render('FrontEnd/drone-controller')
   })
 
 

@@ -1,0 +1,21 @@
+.control-buttons{
+    display: flex;
+    flex-direction: row;
+    height: 100px;
+    justify-content: space-between;
+}
+
+.btn__groups button{
+    height: 20px;
+    width: 70px;
+    margin: 10px;
+}
+.drone-position{
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+}
+
+.drone-position input{
+    height: 20px;
+}
