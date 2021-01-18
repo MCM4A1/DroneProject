@@ -1,0 +1,17 @@
+include index.pug
+script(src='/javascripts/devTools.js')
+link(rel="stylesheet" type="text/css" href="/stylesheets/settings.css")
+block content
+    .settings__wrap
+        .settings__option
+            p Customize
+            input(type="text" id="customize" default="Customize stuff" onchange="logValues(this.id, this.value)")
+        .settings__option
+            p Drone Type
+            input(type="text" id="droneType"  default="Drone Type" onchange="logValues(this.id, this.value)")
+        .settings__option
+            p Lorem
+            input(type="text" id="Lorem" default="Lorem" onchange="logValues(this.id, this.value)")
+        .settings__option
+            p Ipsum
+            input(type="text" id="Ipsum" default="Ipsum" onchange="logValues(this.id, this.value)")

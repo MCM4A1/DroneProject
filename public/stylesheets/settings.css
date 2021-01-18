@@ -1,0 +1,6 @@
+.settings__wrap{
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    justify-content: space-between;
+}
