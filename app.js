@@ -3,7 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var requestHandler = require('controllers/sdkHandler');
 
 //var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
@@ -25,7 +24,7 @@ app.use(express.static('files'))
 app.use(express.static('views'))
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(requestHandler())
+// app.use(requestHandler()) // ? Ez minek?
 
 //For non existing paths
 //app.use('/static', express.static('public'))
@@ -33,7 +32,7 @@ app.use(requestHandler())
 const generalRouter = require('./routes/general');
 const homeRouter = require('./routes/home');
 const calendarRouter = require('./routes/calendar');
-const sdkRouter = ('./routes/sdkHandler')
+const sdkRouter = require('./routes/sdkHandler');
 
 
 //Responses
@@ -76,7 +75,7 @@ app.get('/control', function (req, res) {
   app.use('/', generalRouter);
   app.use('/home', homeRouter);
   app.use('/calendar', calendarRouter);
-  app.use('/sdkHandler', sdkRouter)
+  app.use('/sdkHandler', sdkRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
