@@ -3,11 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var requestHandler = require('controllers/requestHandlers/requestHandler');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+const port = 3000;
 
 // view engine setup
 app.engine('pug', require('pug').__express)
@@ -25,6 +27,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //For non existing paths
 //app.use('/static', express.static('public'))
+
+const generalRouter = require('./routes/general');
+const homeRouter = require('./routes/home');
+const calendarRouter = require('./routes/calendar');
+
 
 //Responses
 app.get('/', function (req, res) {
@@ -63,8 +70,9 @@ app.get('/control', function (req, res) {
   })
 
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+  app.use('/', generalRouter);
+  app.use('/home', homeRouter);
+  app.use('/calendar', calendarRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -82,6 +90,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.listen(port, () => {
+  console.log(`Drone app listening at http://localhost:${port}`);
+});
 
 
 

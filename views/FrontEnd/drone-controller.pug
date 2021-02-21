@@ -3,20 +3,26 @@ script(src='/javascripts/devTools.js')
 script(src='/javascripts/drone-controller.js')
 link(rel="stylesheet" type="text/css" href="/stylesheets/drone__controller.css")
 block content
+.content__wrap
     .controllerPWrap(onclick="letsPlay()")
-        p This is the drone controllerm, click to play
+            p This is the drone controllerm, click to play
     p X, Y, Z Positions
-.drone-position
-    input(type="number" name="ypos" value="0") 
-    input(type="number" name="xpos" value="0") 
-    input(type="number" name="zpos" value="0") 
-.control-buttons
-    .btn__groups
-        button(id="forwardbtn" onclick=`droneControlMain("forward")`) Forward
-        button(id="backbtn" onclick=`droneControlMain("back")`) Back
-    .btn__groups
-        button(id="leftbtn" onclick=`droneControlMain("left")`) Left
-        button(id="rightbtn" onclick=`droneControlMain("right")`) Right
-    .btn__groups
-        button(id="upbtn" onclick=`droneControlMain("up")`) Up
-        button(id="downbtn" onclick=`droneControlMain("down")`) Down
+    .drone-position
+        input(type="number" name="ypos" value="0") 
+        input(type="number" name="xpos" value="0") 
+        input(type="number" name="zpos" value="0") 
+    .control-buttons
+        .btn__groups
+            button(id="forwardbtn" onclick=`droneControlMain("forward")`) Forward
+            button(id="backbtn" onclick=`droneControlMain("back")`) Back
+        .btn__groups
+            button(id="leftbtn" onclick=`droneControlMain("left")`) Left
+            button(id="rightbtn" onclick=`droneControlMain("right")`) Right
+        .btn__groups
+            button(id="upbtn" onclick=`droneControlMain("up")`) Up
+            button(id="downbtn" onclick=`droneControlMain("down")`) Down
+
+    .submit__sdk__form
+        label(for="sdkSubmit") SDK
+        input(name="sdkSubmit" type="text") 
+        button(id="sdkButton" onclick="sendToSdk(this.parentElement)" ) Submit

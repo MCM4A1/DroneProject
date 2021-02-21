@@ -19,3 +19,14 @@
 .drone-position input{
     height: 20px;
 }
+
+.submit__sdk__form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 16px;
+    height: 200px;
+    width: 200px;
+    background: cyan;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+}
