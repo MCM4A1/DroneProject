@@ -1,11 +1,12 @@
 let express = require('express');
 let router = express.Router();
+//let sdkControllerRouter ??
 
-const generalController = require('../controllers/general');
-const sdkController = require('../controllers/sdkController');
+const homeController = require('../controllers/home');
+const sdkController = require('../controllers/sdkHandler');
 
-router.get('/', generalController.getIndex);
-router.get('/sdkController', sdkController.getIndex);
+router.get('/', homeController.getHome);
+router.get('/sdkHandler', sdkController.submitSdk);
 
 module.exports = router;
 

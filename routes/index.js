@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
-
+/*
 app.get('/controllers/sdkDataRequest', (request, response) => {
   response.send('Hello');
-});
+});*/

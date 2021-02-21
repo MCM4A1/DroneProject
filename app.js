@@ -3,13 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var requestHandler = require('controllers/requestHandlers/requestHandler');
+var requestHandler = require('controllers/sdkHandler');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//var indexRouter = require('./routes/index');
+//var usersRouter = require('./routes/users');
 
 var app = express();
-const port = 3000;
+const port = 3030;
 
 // view engine setup
 app.engine('pug', require('pug').__express)
@@ -25,12 +25,15 @@ app.use(express.static('files'))
 app.use(express.static('views'))
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(requestHandler())
+
 //For non existing paths
 //app.use('/static', express.static('public'))
 
 const generalRouter = require('./routes/general');
 const homeRouter = require('./routes/home');
 const calendarRouter = require('./routes/calendar');
+const sdkRouter = ('./routes/sdkHandler')
 
 
 //Responses
@@ -73,6 +76,7 @@ app.get('/control', function (req, res) {
   app.use('/', generalRouter);
   app.use('/home', homeRouter);
   app.use('/calendar', calendarRouter);
+  app.use('/sdkHandler', sdkRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
