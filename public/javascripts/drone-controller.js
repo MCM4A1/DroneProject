@@ -3,23 +3,46 @@ const letsPlay = ()=>{
     console.log("spielen")
 }
 
+const testSubmit = () =>{
+    let szoveg = "szoveg";
+    let szam = 2
+    let autoData = {szoveg: szoveg, szam : szam}
+
+    fetch(('/testSubmitRequest'),{
+        method: "POST",
+        body: JSON.stringify(autoData),
+    })
+        .then((res) =>{
+            console.log(res)
+
+            res.json().then((data) => {
+                if(data){
+                    console.log(data)
+            }
+        });
+    })
+    .catch((err) => console.log(err));
+
+}
+
 const sendToSdk = (form) =>{
     let userInput = form.querySelector(`[name="sdkSubmit"]`).value
     console.log(userInput)
-
-	fetch((`/controllers/sdkHandler`), {
+	fetch((`/submitSdkRequest`), {
 		method: "POST",
 		//headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(userInput),
 	})
 		.then((res) => {
+            console.log(res)
+            console.log(res.message)
+            console.log(res.name)
+            //console.log(data)
+
 			res.json().then((data) => {
-                if (handleResponseMessage(data.message)){
-                    return console.err("Response message failed")
-                }else{
-                    console.log("success")
+                if(data){
+                    console.log(data)
                 }
-				
 			});
 		})
 		.catch((err) => console.log(err));

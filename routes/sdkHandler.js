@@ -5,7 +5,9 @@ var router = express.Router();
 const sdkController = require('../controllers/sdkHandler');
 
 //router.get('/', homeController.getHome);
-router.get('/', sdkController.submitSdk);
+//router.get('/', sdkController.submitSdk);
+router.post('/submitSdkRequest', sdkController.submitSdk)
+router.post('/testSubmitRequest', sdkController.testSubmitRes)
 
-//Ide mi kellene még?
+
 module.exports = router;
