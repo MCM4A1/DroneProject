@@ -7,22 +7,21 @@ const sendToSdk = (form) =>{
     let userInput = form.querySelector(`[name="sdkSubmit"]`).value
     console.log(userInput)
 
-	fetch((`/controllers/sdkHandler`), {
-		method: "POST",
-		//headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(userInput),
-	})
-		.then((res) => {
-			res.json().then((data) => {
-                if (handleResponseMessage(data.message)){
-                    return console.err("Response message failed")
-                }else{
-                    console.log("success")
+	fetch(`/sdkhandler`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userInput }),
+    })
+        .then((res) => {
+            res.json().then((data) => {
+                if (handleResponseMessage(data.message)) {
+                    return console.err('Response message failed');
+                } else {
+                    console.log(data);
                 }
-				
-			});
-		})
-		.catch((err) => console.log(err));
+            });
+        })
+        .catch((err) => console.log(err));
 
 }
 /*

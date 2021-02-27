@@ -2,7 +2,7 @@
 /**
  * Handle SDK request
  * @method POST 
- * @route /controllers/sdkHandler
+ * @route /sdkHandler
  *  
  * Request PARAM
  * @param {string} userInput 
@@ -15,9 +15,9 @@
  */
 exports.submitSdk = async (req, res, next) => {
     try {
-        const { userInput} = req.body;
-        console.log(userInput)
-        return res.status(200).send("Data arrived.");
+        const { userInput } = req.body;
+        console.log(userInput);
+        return res.status(200).send({ message: 'Hey' });
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
