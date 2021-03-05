@@ -22,11 +22,11 @@
 
 .submit__sdk__form{
     display: flex;
+    margin: auto;
     flex-direction: column;
     justify-content: space-around;
     padding: 16px;
-    height: 200px;
-    width: 200px;
-    background: cyan;
+    height: 300px;
+    width: 300px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }

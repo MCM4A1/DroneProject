@@ -1,0 +1,9 @@
+include index.pug
+script(src='/javascripts/devTools.js')
+script(src='/javascripts/drone-controller.js')
+link(rel="stylesheet" type="text/css" href="/stylesheets/drone__controller.css")
+block content
+.login__form 
+    input(type="text" id="username")
+    input(type="password" id="loginpass")
+    button(onclick='submitLogin(this.parentElement)') Login

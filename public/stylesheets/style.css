@@ -3,20 +3,43 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
-}
-
-h1{
-  color: green;
-}
-
-h2{
-  color: pink;
-}
 
 p{
   font-size: large;
   font-weight: 700;
   color: aliceblue;
+}
+
+.homepage__main__content{
+  display: flex;
+  padding: 10px;
+}
+.homepage__sub__content{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  min-height: 600px;
+  
+}
+.sub__content__text{
+  transition: all .2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sub__content__text:hover{
+  box-shadow: 0px 0px 5px 0px black;
+  border-radius: 10px;
+}
+
+.sub__content__text p{
+  text-align: center;
+}
+
+
+.sub__content__text  img {
+  width: 384px;
+  height: 216px;
 }

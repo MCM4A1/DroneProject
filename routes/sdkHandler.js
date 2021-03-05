@@ -5,6 +5,6 @@ const sdkController = require('../controllers/sdkHandler');
 
 //router.get('/', homeController.getHome);
 router.post('/', sdkController.submitSdk);
+router.post('/loginSubmit', sdkController.loginHandler)
 
-//Ide mi kellene még?
 module.exports = router;

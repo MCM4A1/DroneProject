@@ -36,7 +36,11 @@ const sdkRouter = require('./routes/sdkHandler');
  
 //Responses
 app.get('/', function (req, res) {
-    res.render('FrontEnd/index')
+    res.render('FrontEnd/homepage')
+  })
+
+app.get('/login', function (req, res) {
+    res.render('FrontEnd/login-page')
   })
  
 app.get('/settings', function (req, res) {
@@ -62,7 +66,7 @@ app.get('/control', function (req, res) {
     })
   })
 
-
+/*
 app.post('/submitSdkRequest', function (req, res) {
     res.send(data)
   })
@@ -70,7 +74,7 @@ app.post('/submitSdkRequest', function (req, res) {
 app.post('/testSubmitRequest', function (req, res) {
     res.send(data)
   })
-
+*/
 
 
  
@@ -95,6 +99,7 @@ app.post('/testSubmitRequest', function (req, res) {
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
  
 // error handler
 app.use(function(err, req, res, next) {
