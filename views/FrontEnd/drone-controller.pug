@@ -1,9 +1,34 @@
 include index.pug
-script(src='/javascripts/devTools.js')
-script(src='/javascripts/drone-controller.js')
-link(rel="stylesheet" type="text/css" href="/stylesheets/drone__controller.css")
+//-script(src='/javascripts/devTools.js')
+//-script(src='/javascripts/drone-controller.js')
+//-link(rel="stylesheet" type="text/css" href="/stylesheets/drone__controller.css")
 block content
 .content__wrap
+    .controller__wrap
+        h1 Your drones' current position in a matrix 
+        .positions
+            .XPos
+                label(for="XPositionInput") X: 
+                input(name="XPositionInput" value=0 disabled type="number")
+            .YPos
+                label(for="YPositionInput") Y: 
+                input(name="YPositionInput" value=0 disabled type="number")
+            .ZPos
+                label(for="YPositionInput") Z: 
+                input(name="YPositionInput" value=0 disabled type="number")
+        .special__controls 
+            label(for="customDroneInput") Custom commands
+            input(type="text" name="customDroneInput" onblur="sendToSdk(value)")
+    p To start moving use the arrow keys to change horizontal (X,Z positions)
+    p To change vertical position, use space to ascend or use shift to descend
+
+    
+
+
+
+
+
+//-
     .controllerPWrap(onclick="letsPlay()")
             p This is the drone controllerm, click to play
     p X, Y, Z Positions

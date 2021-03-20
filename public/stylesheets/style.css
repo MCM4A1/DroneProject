@@ -43,3 +43,12 @@ p{
   width: 384px;
   height: 216px;
 }
+
+@media screen and (max-width: 600px){
+  .homepage__sub__content{
+    display: flex;
+    flex-direction: column;
+  }
+
+  
+}

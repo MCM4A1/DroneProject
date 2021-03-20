@@ -15,9 +15,35 @@
  */
 exports.submitSdk = async (req, res, next) => {
     try {
-        const { userInput } = req.body;
-        console.log(userInput);
-        return res.status(200).send({ message: 'Hey', userInput });
+        const { key } = req.body;
+
+
+
+        switch(key){
+            case "ArrowUp":
+                console.log("FORWARD")
+                break;
+            case "ArrowDown":
+                console.log("BACKWARDS")
+                break;
+            case "ArrowLeft":
+                console.log("LEFT")
+                break;
+            case "ArrowRight":
+                console.log("RIGHT")
+                break;
+            case " ":
+                console.log("UP")
+                break;
+            case "Shift":
+                console.log("DOWN")
+                break;
+            default :
+                console.log(`Command ${key} in not recognized`)
+        }
+
+
+        return res.status(200).send({type: 'success' });
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;

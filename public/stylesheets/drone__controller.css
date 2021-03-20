@@ -30,3 +30,41 @@
     width: 300px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }
+
+.controller__wrap{
+    text-align: center;
+    font-size: 30px;
+}
+
+.positions{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.positions input{
+    background: inherit;
+    border: none;
+    font-size: 30px;
+    width: 70px;
+
+}
+
+.special__controls label{
+    vertical-align: bottom;
+    padding: 5px;
+}
+
+.special__controls input{
+    border: 1px solid blue;
+    border-radius: 5px;
+    height: 30px;
+    background: inherit;
+}
+
+
+@media screen and (max-width: 600px){
+    h1{
+        font-size: 20px;
+    }
+}

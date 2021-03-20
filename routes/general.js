@@ -5,7 +5,6 @@ let router=express.Router();
 const homeController=require('../controllers/home');
  
 router.get('/', homeController.getHome);
-//router.post('/submitLogin', homeController.getHome);
  
 module.exports=router;
 
