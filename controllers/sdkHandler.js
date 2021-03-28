@@ -20,6 +20,13 @@ exports.submitSdk = async (req, res, next) => {
 
 
         switch(key){
+            case "battery?":
+                    droneCommandHandler("battery?")
+                    break;
+            case "command":
+                    droneCommandHandler("command")
+                    break;
+            /*
             case "ArrowUp":
                 console.log("FORWARD")
                 break;
@@ -39,7 +46,7 @@ exports.submitSdk = async (req, res, next) => {
                 console.log("DOWN")
                 break;
             default :
-                console.log(`Command ${key} in not recognized`)
+                console.log(`Command ${key} in not recognized`)*/
         }
 
 
@@ -80,4 +87,37 @@ exports.loginHandler = async (req,res,next) =>{
         return next(error);
         
     }
+}
+
+const droneCommandHandler = async (command) =>{
+
+    console.log(command, command.length)
+ 
+const dgram = require('dgram')
+const wait = require('waait')
+
+const droneIp = "192.168.10.1"
+const portToCommand = "8889"
+const statePort = "8890"
+
+
+const drone = dgram.createSocket('udp4')
+drone.bind(statePort)
+
+drone.on('message', message =>{
+    console.log(`${message}`)
+});
+
+const errorHandler = (err) =>{
+    if(err){
+        console.err("There is an error")
+        //console.log(err)
+    }
+}
+
+//command, callback, length of command, port, host, errorhandler
+drone.send(command, 0, command.length, portToCommand, droneIp, errorHandler)
+//drone.send(command, 0, '8', portToCommand, droneIp, errorHandler)
+
+console.log("started")
 }
