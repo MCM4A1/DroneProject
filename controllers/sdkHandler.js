@@ -16,41 +16,43 @@
 exports.submitSdk = async (req, res, next) => {
     try {
         const { key } = req.body;
+        let command = "pitch:20;jaw:20;asd:10;kutya:69;cica:420";
 
+        console.log(command.split(";"))
 
+        command = command.split(";")
 
-        switch(key){
-            case "battery?":
-                    droneCommandHandler("battery?")
-                    break;
-            case "command":
-                    droneCommandHandler("command")
-                    break;
-            /*
+        for(let com of command){
+            console.log(com);
+        }
+        /*
+        switch (key) {
             case "ArrowUp":
-                console.log("FORWARD")
+                command="forward 30"
                 break;
             case "ArrowDown":
-                console.log("BACKWARDS")
+                command="back 30"
                 break;
             case "ArrowLeft":
-                console.log("LEFT")
+                command="left 30"
                 break;
             case "ArrowRight":
-                console.log("RIGHT")
+                command="right 30"
                 break;
             case " ":
-                console.log("UP")
+                command="land"
                 break;
-            case "Shift":
-                console.log("DOWN")
+            default:
+                command=key;
                 break;
-            default :
-                console.log(`Command ${key} in not recognized`)*/
-        }
+            }
+            console.log(command)
 
+        let droneResponse = droneCommandHandler(command)
 
-        return res.status(200).send({type: 'success' });
+        console.log("kutyacica", droneResponse)
+            */
+        return res.status(200).send({type: "success", key });
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
@@ -89,35 +91,47 @@ exports.loginHandler = async (req,res,next) =>{
     }
 }
 
-const droneCommandHandler = async (command) =>{
-
-    console.log(command, command.length)
- 
-const dgram = require('dgram')
-const wait = require('waait')
-
 const droneIp = "192.168.10.1"
 const portToCommand = "8889"
 const statePort = "8890"
-
+const dgram = require('dgram')
+const wait = require('waait')
 
 const drone = dgram.createSocket('udp4')
 drone.bind(statePort)
 
-drone.on('message', message =>{
-    console.log(`${message}`)
-});
 
+const droneCommandHandler = async (command) =>{
+    console.log("Command sent to drone + length:  ",command, command.length)
+    drone.send(command, 0, command.length, portToCommand, droneIp, errorHandler)
+
+    drone.on('message', message =>{
+        let splittedMessage
+        if(message.length>50)
+            splittedMessage = message.split(';')
+        else 
+            splittedMessage = message
+        console.log(`DRONE: ${splittedMessage}`)
+        return message;
+    });
+}
+
+
+
+//command, callback, length of command, port, host, errorhandler
+//drone.send(command, 0, '8', portToCommand, droneIp, errorHandler)
 const errorHandler = (err) =>{
     if(err){
-        console.err("There is an error")
-        //console.log(err)
+        console.error("There is an error")
     }
 }
 
-//command, callback, length of command, port, host, errorhandler
-drone.send(command, 0, command.length, portToCommand, droneIp, errorHandler)
-//drone.send(command, 0, '8', portToCommand, droneIp, errorHandler)
-
-console.log("started")
+const droneCommandTakeoffLand = async ()=>{
+    let commands = ['command', 'takeoff', 'land']
+    for(let command of commands){
+        drone.send(command, 0, command.length, portToCommand, droneIp, errorHandler)
+        console.log(command)
+        await wait(5000)
+    }
 }
+

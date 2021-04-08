@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 //var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
+
+//USE "npm run dev"  to start
  
 var app = express();
 const port = 3030;
@@ -23,11 +25,7 @@ app.use(express.static('public'))
 app.use(express.static('files'))
 app.use(express.static('views'))
 app.use(express.static(path.join(__dirname, 'public')));
- 
-// app.use(requestHandler()) // ? Ez minek?
- 
-//For non existing paths
-//app.use('/static', express.static('public'))
+
  
 const generalRouter = require('./routes/general');
 const homeRouter = require('./routes/home');
@@ -66,15 +64,6 @@ app.get('/control', function (req, res) {
     })
   })
 
-/*
-app.post('/submitSdkRequest', function (req, res) {
-    res.send(data)
-  })
-  
-app.post('/testSubmitRequest', function (req, res) {
-    res.send(data)
-  })
-*/
 
 
  

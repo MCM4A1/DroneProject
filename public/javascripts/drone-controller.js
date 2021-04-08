@@ -1,7 +1,5 @@
 const sendToSdk = (key) =>{
-
-    console.log(key)
-
+    //console.log(key)
 	fetch(`/sdkhandler`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -9,11 +7,16 @@ const sendToSdk = (key) =>{
     })
         .then((res) => {
             res.json().then((data) => {
-                console.log(data.type)
+                //console.log(data.type)
+                changeControlHTMLContent(data.key)
             });
         })
         .catch((err) => console.log(err));
 }
 
+const changeControlHTMLContent = (text) =>{
+    let controlDataParagraph = document.querySelector(`[name="webSocketContent"]`)
+    controlDataParagraph.innerText = text
+}
 
 

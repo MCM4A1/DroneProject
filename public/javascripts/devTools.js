@@ -38,7 +38,7 @@ const submitLogin  = (loginElement )=>{
 
 
 const addKeyPressListener = () =>{
-    if (document.querySelector(`.positions`)){
+    if (document.querySelector(`.listener__trigger`)){
         document.addEventListener('keydown', keyPressHandler);
         console.log("controller listener added")
     }
@@ -51,35 +51,66 @@ window.onload = function(){
 const keyPressHandler = (pressedKey)=>{
 
     if(document.activeElement.nodeName=="INPUT") return
-
-    
     let pressedKeyValue = pressedKey.key
     sendToSdk(pressedKeyValue)
 
-    let posX = document.querySelector(".XPos input")
-    let posY = document.querySelector(".YPos input")
-    let posZ = document.querySelector(".ZPos input")
-
-    switch(pressedKeyValue){
-       case "ArrowUp":
-            posY.value=parseInt(posY.value)+1
+    switch (pressedKeyValue) {
+        case "ArrowUp":
+            activeThis("up")
             break;
-       case "ArrowDown":
-            posY.value=parseInt(posY.value)-1
+        case "ArrowDown":
+            activeThis("back")
             break;
-       case "ArrowLeft":
-            posX.value=parseInt(posX.value)-1
+        case "ArrowRight":
+            activeThis("right")
             break;
-       case "ArrowRight":
-            posX.value=parseInt(posX.value)+1
+        case "ArrowLeft":
+            activeThis("left")
             break;
-       case " ":
-            posZ.value=parseInt(posZ.value)+1
+        case "Shift":
+            activeThis("down")
             break;
-       case "Shift":
-            posZ.value=parseInt(posZ.value)-1
+        case " ":
+            activeThis("up")
+            break;
+        case "q":
+            activeThis("turnccw")
+            break;
+        case "e":
+            activeThis("turncw")
+            break;
+        default:
             break;
     }
+}
+//     let posX = document.querySelector(".XPos input")
+//     let posY = document.querySelector(".YPos input")
+//     let posZ = document.querySelector(".ZPos input")
 
+//     switch(pressedKeyValue){
+//        case "ArrowUp":
+//             posY.value=parseInt(posY.value)+1
+//             break;
+//        case "ArrowDown":
+//             posY.value=parseInt(posY.value)-1
+//             break;
+//        case "ArrowLeft":
+//             posX.value=parseInt(posX.value)-1
+//             break;
+//        case "ArrowRight":
+//             posX.value=parseInt(posX.value)+1
+//             break;
+//        case " ":
+//             posZ.value=parseInt(posZ.value)+1
+//             break;
+//        case "Shift":
+//             posZ.value=parseInt(posZ.value)-1
+//             break;
+//     }
 
+const activeThis = (elementToActive) =>{
+    document.querySelector(`[name="${elementToActive}"]`).classList.add("active__grid__item")
+    setTimeout(function(){
+        document.querySelector(`[name="${elementToActive}"]`).classList.remove("active__grid__item")
+        }, 100);
 }

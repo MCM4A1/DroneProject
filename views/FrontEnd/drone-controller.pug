@@ -3,10 +3,10 @@ include index.pug
 //-script(src='/javascripts/drone-controller.js')
 //-link(rel="stylesheet" type="text/css" href="/stylesheets/drone__controller.css")
 block content
-.content__wrap
+.content__wrap.listener__trigger
     .controller__wrap
-        h1 Your drones' current position in a matrix 
-        .positions
+        //-h1 Your drones' current position in a matrix 
+        //-.positions
             .XPos
                 label(for="XPositionInput") X: 
                 input(name="XPositionInput" value=0 disabled type="number")
@@ -21,6 +21,40 @@ block content
             input(type="text" name="customDroneInput" onblur="sendToSdk(value)")
     p To start moving use the arrow keys to change horizontal (X,Z positions)
     p To change vertical position, use space to ascend or use shift to descend
+    a(href="https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf" target="_blank") User Guide
+    .socketContent(name="webSocketContent") To change vertical position, use space to ascend or use shift to descend
+    .display__grid 
+        .control__grid__item(onclick=`sendToSdk("battery?"), activeThis("battery")` name="battery")
+            p battery
+        .control__grid__item(onclick=`sendToSdk("emergency"), activeThis("emergency")` name="emergency")
+            p(style="color: red") emergency
+        .control__grid__item(onclick=`sendToSdk("command"), activeThis("command")` name="command")
+            p command
+        .control__grid__item(onclick=`sendToSdk("takeoff"), activeThis("takeoff")` name="takeoff")
+            p takeoff
+        .control__grid__item(onclick=`sendToSdk("land"), activeThis("land")` name="land")
+            p land
+        .control__grid__item(onclick=`sendToSdk("stop"), activeThis("stop")` name="stop")
+            p stop
+    .display__grid
+        .control__grid__item(onclick=`sendToSdk("ccw 90"), activeThis("turnccw")` name="turnccw")
+            p Turn anti clockwise 90
+        .control__grid__item(onclick=`sendToSdk("forward 20"), activeThis("forward")` name="forward")
+            p forward
+        .control__grid__item(onclick=`sendToSdk("cw 90"), activeThis("turncw")` name="turncw")
+            p Turn clockwise 90
+        .control__grid__item(onclick=`sendToSdk("left 20"), activeThis("left")` name="left")
+            p left
+        .control__grid__item(onclick=`sendToSdk("up 20"), activeThis("up")` name="up")
+            p up
+        .control__grid__item(onclick=`sendToSdk("right 20"), activeThis("right")` name="right")
+            p right
+        .control__grid__item(onclick=`sendToSdk("down 20"), activeThis("down")` name="down")
+            p down
+        .control__grid__item(onclick=`sendToSdk("back 20"), activeThis("back")` name="back")
+            p back
+
+
 
     
 
