@@ -1,0 +1,13 @@
+include index.pug
+block content
+.auto__wrap 
+    .card__holder 
+        .auto__card 
+            input(type="text" value="command")
+            button(onclick="addNewCard(this.parentElement)") Add
+            button(onclick="removeThisCard(this.parentElement)") Remove
+        .auto__card 
+            input(type="text" value="land")
+            button(onclick="addNewCard(this.parentElement)") Add
+            button(onclick="removeThisCard(this.parentElement)") Remove
+    button(onclick="sendCommandsToSdk()") Send commands to drone

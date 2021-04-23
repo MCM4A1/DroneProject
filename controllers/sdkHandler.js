@@ -16,15 +16,9 @@
 exports.submitSdk = async (req, res, next) => {
     try {
         const { key } = req.body;
-        let command = "pitch:20;jaw:20;asd:10;kutya:69;cica:420";
 
-        console.log(command.split(";"))
+        console.log("backend: ",key)
 
-        command = command.split(";")
-
-        for(let com of command){
-            console.log(com);
-        }
         /*
         switch (key) {
             case "ArrowUp":
@@ -50,7 +44,6 @@ exports.submitSdk = async (req, res, next) => {
 
         let droneResponse = droneCommandHandler(command)
 
-        console.log("kutyacica", droneResponse)
             */
         return res.status(200).send({type: "success", key });
     } catch (err) {
@@ -60,36 +53,24 @@ exports.submitSdk = async (req, res, next) => {
 
     }
 };
-
-exports.loginHandler = async (req,res,next) =>{
+exports.submitAutoToSdk = async (req, res, next) => {
     try {
-        console.log(req.body)
-        const {user} = req.body;
-        let {username, password} = user
-
-        let message
-
-        if(username=="admin" && password == "secret")
-            message={
-                type:"success",
-                text:"successful login",
-            }
-        else
-            message={
-                type:"error",
-                text:"failed login",
-            }
-
-
-        return res.status(200).send({message, username, password})
-        
+        const cardInputValues  = req.body.cardInputValues;
+        for(let cardValue of cardInputValues){
+            console.log(cardValue)
+            await wait(500)
+            //droneCommandHandler(cardValue)
+        }
+        return res.status(200).send({type: "success"});
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
         return next(error);
-        
+
     }
-}
+};
+
+
 
 const droneIp = "192.168.10.1"
 const portToCommand = "8889"

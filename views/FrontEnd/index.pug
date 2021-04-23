@@ -7,22 +7,22 @@ block styles
     link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
     link(rel="stylesheet" type="text/css" href="/stylesheets/navigation.css")
     link(rel="stylesheet" type="text/css" href="/stylesheets/drone__controller.css")
+    link(rel="stylesheet" type="text/css" href="/stylesheets/auto.css")
     script(src='../javascripts/devTools.js')
     script(src='../javascripts/drone-controller.js')
     script(src='../javascripts/connectionSetup.js')
+    script(src='../javascripts/automatization.js')
     header
         .navigation__wrap
             .nav__item
                 a(href="/") Home 
-            //-.nav__item
+            .nav__item
                 a(href="/settings") Settings 
-            //-.nav__item
-                a(href="/mydrone") MyDrone
-            //-.nav__item
-                a(href="/history") History 
-            //-.nav__item
+            .nav__item
                 a(href="/rawdata") Raw Data 
             .nav__item
                 a(href="/control") Control Drone
+            .nav__item
+                a(href="/login") Login
     body
     block content

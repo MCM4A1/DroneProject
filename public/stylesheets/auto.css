@@ -1,0 +1,30 @@
+.auto__wrap{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: auto;
+    align-items: center;
+}
+
+.card__holder{
+    display: flex;
+    flex-direction: column;
+}
+
+.auto__card{
+    display: flex;
+    height: 35px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    padding: 28px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.auto__card:hover{
+    box-shadow: 0px 0px 5px 1px black;
+}
+
+.auto__card input{
+    border-radius: 5px;
+}

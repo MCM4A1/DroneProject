@@ -16,7 +16,7 @@ const submitLogin  = (loginElement )=>{
     let user = {username, password}
     console.log(user)
 
-    fetch(`/sdkHandler/loginSubmit`, {
+    fetch(`/loginSubmit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user }),
@@ -83,34 +83,49 @@ const keyPressHandler = (pressedKey)=>{
             break;
     }
 }
-//     let posX = document.querySelector(".XPos input")
-//     let posY = document.querySelector(".YPos input")
-//     let posZ = document.querySelector(".ZPos input")
-
-//     switch(pressedKeyValue){
-//        case "ArrowUp":
-//             posY.value=parseInt(posY.value)+1
-//             break;
-//        case "ArrowDown":
-//             posY.value=parseInt(posY.value)-1
-//             break;
-//        case "ArrowLeft":
-//             posX.value=parseInt(posX.value)-1
-//             break;
-//        case "ArrowRight":
-//             posX.value=parseInt(posX.value)+1
-//             break;
-//        case " ":
-//             posZ.value=parseInt(posZ.value)+1
-//             break;
-//        case "Shift":
-//             posZ.value=parseInt(posZ.value)-1
-//             break;
-//     }
 
 const activeThis = (elementToActive) =>{
     document.querySelector(`[name="${elementToActive}"]`).classList.add("active__grid__item")
     setTimeout(function(){
         document.querySelector(`[name="${elementToActive}"]`).classList.remove("active__grid__item")
         }, 100);
+}
+
+
+const loadBackendContent = () =>{
+    console.log("Loading backend data")
+
+    fetch(`/loadBackend`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+    })
+        .then((res) => {
+            res.json().then((data) => {
+                console.log(data)
+                loadBackendDataOnPage(data.droneDataObjects)
+                
+            });
+        })
+        .catch((err) => console.log(err));
+}
+
+const loadBackendDataOnPage = (dataObjects) =>{
+    let dataContentDiv = document.querySelector(".data__content")
+    console.log(dataObjects)
+
+    for(let dataObject of dataObjects){
+        let newRow = document.createElement("div")
+        newRow.classList.add("data__flex")
+        for(let droneData of dataObject){
+            newRow.appendChild(createPElementWithContent(droneData))
+        }
+        dataContentDiv.appendChild(newRow)
+    }
+
+}
+
+const createPElementWithContent = (content)=>{
+    let pElement = document.createElement("p")
+    pElement.innerHTML=content
+    return pElement
 }

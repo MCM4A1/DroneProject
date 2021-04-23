@@ -1,10 +1,12 @@
-let express=require('express');
-let router=express.Router();
-//let sdkControllerRouter ??
+var express=require('express');
+var router=express.Router();
  
-const homeController=require('../controllers/home');
+const generalController=require('../controllers/general');
  
-router.get('/', homeController.getHome);
+
+router.get('/', generalController.getIndex);
+router.post('/loadBackend', generalController.sendData);
+router.post('/loginSubmit', generalController.loginHandler)
  
 module.exports=router;
 
