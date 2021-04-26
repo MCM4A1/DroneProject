@@ -1,3 +1,5 @@
+
+
 const logValues = (id, value)  =>{
     console.log("logValues",id,value)
 }
@@ -128,4 +130,20 @@ const createPElementWithContent = (content)=>{
     let pElement = document.createElement("p")
     pElement.innerHTML=content
     return pElement
+}
+
+
+setInterval(() => {loadDataFromBackend()}, 1000);
+
+const  loadDataFromBackend = ()=>{
+    fetch(`sdkHandler/updateData`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+    })
+        .then((res) => {
+            res.json().then((data) => {
+                changeControlHTMLContent(data.dataToFe)
+            });
+        })
+        .catch((err) => console.log(err));
 }

@@ -100,6 +100,18 @@
     font-weight: 800;
 }
 
+.socketContent{
+    margin: auto;
+    width: 300px;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.socketContent tr td:first-child {
+    border-right: 0.5px solid black;
+}
+
 
 
 @media screen and (max-width: 600px){

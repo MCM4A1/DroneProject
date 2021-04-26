@@ -11,3 +11,5 @@ block content
             button(onclick="addNewCard(this.parentElement)") Add
             button(onclick="removeThisCard(this.parentElement)") Remove
     button(onclick="sendCommandsToSdk()") Send commands to drone
+    .control__grid__item(onclick=`sendToSdk("emergency"), activeThis("emergency")` name="emergency")
+            p(style="color: red") emergency
