@@ -77,6 +77,18 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+
+let mysql = require('mysql');
+
+let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'almafa',
+    database: 'drone_adatbazis'
+});
+
+
+
  
 // error handler
 app.use(function(err, req, res, next) {

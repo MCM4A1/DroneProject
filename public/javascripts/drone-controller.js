@@ -7,7 +7,7 @@ const sendToSdk = (key) =>{
     })
         .then((res) => {
             res.json().then((data) => {
-                //console.log(data.type)
+                console.log(data)
                 changeControlHTMLContent(data.key)
             });
         })

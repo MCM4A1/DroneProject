@@ -1,6 +1,3 @@
-
-
-
 const droneIp = "192.168.10.1"
 const portToCommand = "8889"
 const statePort = "8890"
@@ -8,16 +5,22 @@ const dgram = require('dgram')
 const wait = require('waait');
 let droneData;
 
+//SQL Stuff
+let mysql = require('mysql');
+let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'almafa',
+    database: 'drone_adatbazis'
+});
+connection.connect(function(err) {
+    if (err) throw err;
+  });
+
+
 const drone = dgram.createSocket('udp4')
 drone.bind(statePort)
 
-drone.on('connection', socket => {
-    socket.on('command', command => {
-      console.log('command Sent from browser');
-      console.log(command);
-    });
-  
-  });
   
   
 
@@ -27,7 +30,6 @@ const droneCommandHandler = async (command) =>{
 
     drone.on('message', message =>{
         droneData=`${message}`;
-        //let splittedMessage = message;
         console.log(`DRONE: ${message}`)
 
         return message;
@@ -44,14 +46,6 @@ const errorHandler = (err) =>{
     }
 }
 
-const droneCommandTakeoffLand = async ()=>{
-    let commands = ['command', 'takeoff', 'land']
-    for(let command of commands){
-        drone.send(command, 0, command.length, portToCommand, droneIp, errorHandler)
-        console.log(command)
-        await wait(5000)
-    }
-}
 
 
 
@@ -63,33 +57,46 @@ exports.submitSdk = async (req, res, next) => {
 
         droneCommandHandler(key)
 
-        /*
-        switch (key) {
-            case "ArrowUp":
-                command="forward 30"
-                break;
-            case "ArrowDown":
-                command="back 30"
-                break;
-            case "ArrowLeft":
-                command="left 30"
-                break;
-            case "ArrowRight":
-                command="right 30"
-                break;
-            case " ":
-                command="land"
-                break;
-            default:
-                command=key;
-                break;
-            }
-            console.log(command)
+        let queryData = []
 
-        let droneResponse = droneCommandHandler(command)
-
-            */
-        return res.status(200).send({type: "success", key });
+        let query = "select * from user";
+        connection.query(query,function  (err, result, fields) {
+            if (err) throw err;
+            queryData=JSON.parse(JSON.stringify(result))
+            console.log("QUERYDATA",queryData)
+            
+            console.log("KUTYACICA",queryData)
+            
+            return res.status(200).send({type: "success", key , queryData});
+            
+            /*
+            switch (key) {
+                case "ArrowUp":
+                    command="forward 30"
+                    break;
+                    case "ArrowDown":
+                        command="back 30"
+                        break;
+                        case "ArrowLeft":
+                            command="left 30"
+                            break;
+                            case "ArrowRight":
+                                command="right 30"
+                                break;
+                                case " ":
+                                    command="land"
+                                    break;
+                                    default:
+                                        command=key;
+                                        break;
+                                    }
+                                    console.log(command)
+                                    
+                                    let droneResponse = droneCommandHandler(command)
+                                    
+                                    */
+                                  // return res.status(200).send({type: "success", key , queryData});
+        });
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
@@ -97,6 +104,8 @@ exports.submitSdk = async (req, res, next) => {
 
     }
 };
+
+//Automatization
 exports.submitAutoToSdk = async (req, res, next) => {
     try {
         const cardInputValues  = req.body.cardInputValues;
@@ -115,17 +124,15 @@ exports.submitAutoToSdk = async (req, res, next) => {
 };
 
 
+//Frontend pings this to update the drone data from the backend every second.
 exports.updateDroneData = async (req, res, next) => {
     try {
         let dataToFe = droneData
         //let dataToFe = Math.floor(Math.random()*10)
-
-        
         return res.status(200).send({type: "success", dataToFe});
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
         return next(error);
-
     }
 };

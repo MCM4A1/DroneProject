@@ -133,7 +133,7 @@ const createPElementWithContent = (content)=>{
 }
 
 
-setInterval(() => {loadDataFromBackend()}, 1000);
+//setInterval(() => {loadDataFromBackend()}, 1000);
 
 const  loadDataFromBackend = ()=>{
     fetch(`sdkHandler/updateData`, {
