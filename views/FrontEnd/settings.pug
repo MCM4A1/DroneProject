@@ -5,14 +5,11 @@ block content
 body
     .settings__wrap
         .settings__option
-            p Customize
-            input(type="text" id="customize" default="Customize stuff" onchange="logValues(this.id, this.value)")
+            p Speed
+            input(type="number" default="droneSpeed")
         .settings__option
-            p Drone Type
-            input(type="text" id="droneType"  default="Drone Type" onchange="logValues(this.id, this.value)")
+            p Wifi SSID
+            input(type="text" name="wifiSSID")
         .settings__option
-            p Lorem
-            input(type="text" id="Lorem" default="Lorem" onchange="logValues(this.id, this.value)")
-        .settings__option
-            p Ipsum
-            input(type="text" id="Ipsum" default="Ipsum" onchange="logValues(this.id, this.value)")
+            p Wifi Password
+            input(type="text" name="wifiPassword")

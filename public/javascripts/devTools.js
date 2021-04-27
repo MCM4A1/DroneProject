@@ -10,13 +10,11 @@ const handleResponseMessage = (message)=>{
 }
 
 const submitLogin  = (loginElement )=>{
-    console.log(loginElement)
     let username = loginElement.querySelector(`[id="username"]`).value
     let password = loginElement.querySelector(`[id="loginpass"]`).value
 
 
     let user = {username, password}
-    console.log(user)
 
     fetch(`/loginSubmit`, {
         method: 'POST',
@@ -25,8 +23,7 @@ const submitLogin  = (loginElement )=>{
     })
         .then((res) => {
             res.json().then((data) => {
-                
-                if(data.message.type=="success")
+                if(data.ifSuccess==true)
                     window.location.href = "/";
                 else console.error("Wrong username or password")
 
@@ -36,6 +33,34 @@ const submitLogin  = (loginElement )=>{
         .catch((err) => console.log(err));
 
 }
+
+const submitRegister = (loginElement=>{
+    console.log(loginElement)
+    let username = loginElement.querySelector(`[id="username"]`).value
+    let password = loginElement.querySelector(`[id="loginpass"]`).value
+
+
+    let user = {username, password}
+    console.log(user)
+
+    fetch(`/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user }),
+    })
+        .then((res) => {
+            res.json().then((data) => {
+                
+                if(data.ifSuccess)
+                    console.log("Successful registration")
+                else console.error("Registration failed")
+
+
+            });
+        })
+        .catch((err) => console.log(err));
+
+})
 
 
 

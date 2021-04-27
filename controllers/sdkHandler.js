@@ -63,39 +63,32 @@ exports.submitSdk = async (req, res, next) => {
         connection.query(query,function  (err, result, fields) {
             if (err) throw err;
             queryData=JSON.parse(JSON.stringify(result))
-            console.log("QUERYDATA",queryData)
             
-            console.log("KUTYACICA",queryData)
             
-            return res.status(200).send({type: "success", key , queryData});
-            
-            /*
             switch (key) {
                 case "ArrowUp":
                     command="forward 30"
-                    break;
-                    case "ArrowDown":
-                        command="back 30"
-                        break;
-                        case "ArrowLeft":
-                            command="left 30"
-                            break;
-                            case "ArrowRight":
-                                command="right 30"
-                                break;
-                                case " ":
-                                    command="land"
-                                    break;
-                                    default:
-                                        command=key;
-                                        break;
-                                    }
-                                    console.log(command)
+                break;
+                case "ArrowDown":
+                    command="back 30"
+                break;
+                case "ArrowLeft":
+                    command="left 30"
+                break;
+                case "ArrowRight":
+                    command="right 30"
+                break;
+                case " ":
+                    command="land"
+                break;
+                default:
+                    command=key;
+                break;
+                }
                                     
-                                    let droneResponse = droneCommandHandler(command)
                                     
-                                    */
-                                  // return res.status(200).send({type: "success", key , queryData});
+        return res.status(200).send({type: "success", key , queryData});
+                                    
         });
     } catch (err) {
         const error = new Error(err);

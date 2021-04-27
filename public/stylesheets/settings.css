@@ -1,6 +1,16 @@
 .settings__wrap{
     display: flex;
     flex-direction: column;
-    height: 400px;
+    height: 250px;
     justify-content: space-between;
+}
+
+.settings__option{
+    margin: auto;
+    text-align: center;
+}
+
+.settings__option input{
+    border-radius: 5px;
+    font-size: 20px;
 }

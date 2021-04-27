@@ -4,6 +4,9 @@ include index.pug
 link(rel="stylesheet" type="text/css" href="/stylesheets/drone__controller.css")
 block content
 .login__form 
+    label Username
     input(type="text" id="username")
+    label Password
     input(type="password" id="loginpass")
     button(onclick='submitLogin(this.parentElement)') Login
+    button(onclick='submitRegister(this.parentElement)') Register

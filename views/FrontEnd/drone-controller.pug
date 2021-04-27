@@ -10,17 +10,6 @@ block mixins
 block content
 .content__wrap.listener__trigger
     .controller__wrap
-        //-h1 Your drones' current position in a matrix 
-        //-.positions
-            .XPos
-                label(for="XPositionInput") X: 
-                input(name="XPositionInput" value=0 disabled type="number")
-            .YPos
-                label(for="YPositionInput") Y: 
-                input(name="YPositionInput" value=0 disabled type="number")
-            .ZPos
-                label(for="YPositionInput") Z: 
-                input(name="YPositionInput" value=0 disabled type="number")
         .special__controls 
             label(for="customDroneInput") Custom commands
             input(type="text" name="customDroneInput" onblur="sendToSdk(value)")

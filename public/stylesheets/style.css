@@ -56,6 +56,16 @@ p{
   
 }
 
+.login__form {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  text-align: center;
+  width: 150px;
+  height: 250px;
+  justify-content: space-between;
+}
+
 @media screen and (max-width: 600px){
   .homepage__sub__content{
     display: flex;

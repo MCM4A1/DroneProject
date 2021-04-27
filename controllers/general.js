@@ -1,3 +1,14 @@
+let mysql = require('mysql');
+let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'almafa',
+    database: 'drone_adatbazis'
+});
+connection.connect(function(err) {
+    if (err) throw err;
+  });
+
 exports.getIndex = (req, res) => {
     res.render('index.pug');
 }
@@ -22,28 +33,51 @@ exports.sendData = async (req,res) =>{
 
 }
 
-exports.loginHandler = async (req,res,next) =>{
+exports.loginHandler = async (req,res) =>{
+    const {user} = req.body;
+        let ifSuccess = false; 
+        let {username, password} = user
+        let query = `
+            select * from user where
+            username='${username}' and  password='${password}'`
     try {
-        console.log(req.body)
+        connection.query(query,function  (err, result, fields) {
+            if (err) throw err;
+                if(result.length>0)
+                    ifSuccess=true;
+            
+                         
+                                    
+        return res.status(200).send({type: "success", ifSuccess});
+                                    
+        });
+    } catch (err) {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+        
+    }
+}
+
+
+exports.registerHandler = async (req,res) =>{
+        let ifSuccess = false; 
         const {user} = req.body;
         let {username, password} = user
-
-        let message
-
-        if(username=="admin" && password == "secret")
-            message={
-                type:"success",
-                text:"successful login",
-            }
-        else
-            message={
-                type:"error",
-                text:"failed login",
-            }
-
-
-        return res.status(200).send({message, username, password})
-        
+        let query = `
+            insert User(username, password)
+            values('${username}', '${password}')`
+    try {
+        connection.query(query,function  (err, result, fields) {
+            if (err) throw err;
+                console.log(result)
+            ifSuccess = true; 
+            
+                         
+                                    
+        return res.status(200).send({type: "success", ifSuccess});
+                                    
+        });
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
