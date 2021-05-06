@@ -2,7 +2,7 @@ const droneIp = "192.168.10.1"
 const portToCommand = "8889"
 const statePort = "8890"
 const dgram = require('dgram')
-let droneData;
+let droneData = "pitch:0;roll:0;yaw:0;vgx:0;vgy:0;vgz:0;templ:0;temph:0;tof:0;h:0;bat:0;baro:0;time:0;agx:0;agy:0;agz:0;";
 
 //SQL Stuff
 let mysql = require('mysql');
@@ -111,7 +111,7 @@ exports.submitAutoToSdk = async (req, res, next) => {
 exports.updateDroneData = async (req, res, next) => {
     try {
         let dataToFe = droneData
-        console.log(dataToFe)
+        console.log("DATA TO FE", dataToFe)
 
             if(!dataToFe){
                 console.log("NO DRONE DATA")
