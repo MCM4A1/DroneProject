@@ -18,7 +18,7 @@ p{
 }
 .homepage__sub__content{
   display: grid;
-  /*grid-template-columns: 80% ;*/
+  grid-template-columns: 33% 33% 33%;
   grid-row-gap: 30px;
   grid-column-gap: 10px;
   min-height: 600px;

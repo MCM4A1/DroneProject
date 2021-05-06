@@ -29,13 +29,14 @@ block content
             p land
         .control__grid__item(onclick=`sendToSdk("stop"), activeThis("stop")` name="stop")
             p stop
-    .display__grid
+    .display__grid(style="margin-top: 20px")
         .control__grid__item(onclick=`sendToSdk("ccw 90"), activeThis("turnccw")` name="turnccw")
             p Turn anti clockwise 90
         .control__grid__item(onclick=`sendToSdk("forward 20"), activeThis("forward")` name="forward")
             p forward
         .control__grid__item(onclick=`sendToSdk("cw 90"), activeThis("turncw")` name="turncw")
             p Turn clockwise 90
+    .display__grid(style="margin-top:20px")
         .control__grid__item(onclick=`sendToSdk("left 20"), activeThis("left")` name="left")
             p left
         .control__grid__item(onclick=`sendToSdk("up 20"), activeThis("up")` name="up")

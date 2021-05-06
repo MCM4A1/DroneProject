@@ -7,8 +7,7 @@ const sendToSdk = (key) =>{
     })
         .then((res) => {
             res.json().then((data) => {
-                console.log(data)
-                changeControlHTMLContent(data.key)
+                console.log("success")
             });
         })
         .catch((err) => console.log(err));
@@ -29,6 +28,9 @@ const changeControlHTMLContent = (droneDataString) =>{
     for (arrayItem of droneDataArray){
         let arrayItemArray = arrayItem.split(":");
         droneDataObject[`${arrayItemArray[0]}`] = arrayItemArray[1];
+        if(arrayItem.length<3){
+            return
+        }
         let tableDataRow =  socketContentTable.querySelector(`[name="${arrayItemArray[0]}"]`)
         if(tableDataRow){
             tableDataRow.lastElementChild.innerHTML=`${arrayItemArray[1]}`

@@ -6,10 +6,12 @@ body
     .settings__wrap
         .settings__option
             p Speed
-            input(type="number" default="droneSpeed")
+            input(type="number" name="droneSpeed")
         .settings__option
             p Wifi SSID
             input(type="text" name="wifiSSID")
         .settings__option
             p Wifi Password
             input(type="text" name="wifiPassword")
+        .settings__option 
+            button(onclick="submitSettings(this.parentElement.parentElement)") Save

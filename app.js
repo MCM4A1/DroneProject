@@ -1,7 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var logger = require('morgan');
 
 //USE "npm run dev"  to start
  
@@ -13,7 +12,7 @@ app.engine('pug', require('pug').__express)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
  
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'))
@@ -60,15 +59,12 @@ app.get('/auto', function (req, res) {
   app.post('/', function (req, res) {
     res.send('Got a POST request')
   })
- 
   app.put('/user', function (req, res) {
     res.send('Got a PUT request at /user')
   })
- 
   app.delete('/user', function (req, res) {
     res.send('Got a DELETE request at /user')
   })
-
   app.use('/', generalRouter);
   app.use('/sdkHandler', sdkRouter);
  
@@ -76,6 +72,7 @@ app.get('/auto', function (req, res) {
 app.use(function(req, res, next) {
   next(createError(404));
 });
+//YEET?
 
 
 let mysql = require('mysql');

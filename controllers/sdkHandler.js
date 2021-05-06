@@ -2,7 +2,6 @@ const droneIp = "192.168.10.1"
 const portToCommand = "8889"
 const statePort = "8890"
 const dgram = require('dgram')
-const wait = require('waait');
 let droneData;
 
 //SQL Stuff
@@ -29,7 +28,8 @@ const droneCommandHandler = async (command) =>{
     drone.send(command, 0, command.length, portToCommand, droneIp, errorHandler)
 
     drone.on('message', message =>{
-        droneData=`${message}`;
+        if(message.length>10)
+            droneData=`${message}`;
         console.log(`DRONE: ${message}`)
 
         return message;
@@ -42,28 +42,15 @@ const droneCommandHandler = async (command) =>{
 //drone.send(command, 0, '8', portToCommand, droneIp, errorHandler)
 const errorHandler = (err) =>{
     if(err){
-        console.error("There is an error")
+        console.error("Drone error")
     }
 }
-
-
 
 
 exports.submitSdk = async (req, res, next) => {
     try {
         const { key } = req.body;
-
-        console.log("backend: ",key)
-
-        droneCommandHandler(key)
-
-        let queryData = []
-
-        let query = "select * from user";
-        connection.query(query,function  (err, result, fields) {
-            if (err) throw err;
-            queryData=JSON.parse(JSON.stringify(result))
-            
+        console.log("backend key: ",key)
             
             switch (key) {
                 case "ArrowUp":
@@ -79,17 +66,18 @@ exports.submitSdk = async (req, res, next) => {
                     command="right 30"
                 break;
                 case " ":
-                    command="land"
+                    command="up 20"
+                    break;
+                case "SHIFT":
+                    command="down 20"
                 break;
                 default:
                     command=key;
                 break;
                 }
+        droneCommandHandler(command)                
                                     
-                                    
-        return res.status(200).send({type: "success", key , queryData});
-                                    
-        });
+        return res.status(200).send({type: "success", key});
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
@@ -117,12 +105,54 @@ exports.submitAutoToSdk = async (req, res, next) => {
 };
 
 
+//droneDataString="pitch:-1;roll:-179;yaw:148;vgx:-1;vgy:0;vgz:0;templ:76;temph:78;tof:10;h:0;bat:90;baro:196.55;time:0;agx:-22.00;agy:5.00;agz:1002.00;";
+
 //Frontend pings this to update the drone data from the backend every second.
 exports.updateDroneData = async (req, res, next) => {
     try {
         let dataToFe = droneData
-        //let dataToFe = Math.floor(Math.random()*10)
-        return res.status(200).send({type: "success", dataToFe});
+        console.log(dataToFe)
+
+            if(!dataToFe){
+                console.log("NO DRONE DATA")
+                return res.status(418)
+            }
+
+        let droneDataArray = dataToFe.split(";")
+        let droneDataObject = {}
+
+    for (arrayItem of droneDataArray){
+        let arrayItemArray = arrayItem.split(":");
+        droneDataObject[`${arrayItemArray[0]}`] = arrayItemArray[1];
+    }
+    //droneDataObject.pitch.value, droneDataObject.roll.value, droneDataObject.yaw.value, droneDataObject.vgx.value, droneDataObject.vgy.value, droneDataObject.vgz.value, droneDataObject.templ.value, droneDataObject.templh.value, droneDataObject.tof.value, droneDataObject.h.value, droneDataObject.bat.value, droneDataObject.baro.value, droneDataObject.time.value, droneDataObject.agx.value, droneDataObject.agy.value, droneDataObject.agz.value
+
+        let query = `insert into flydata(pitch, roll, yaw, vgx, vgy, vgz, templ, temph, tof, h, bat, baro, time, agx, agy, agz) values(
+                ${droneDataObject.pitch}
+                ,${droneDataObject.roll}
+                ,${droneDataObject.yaw}
+                ,${droneDataObject.vgx} 
+                ,${droneDataObject.vgy} 
+                ,${droneDataObject.vgz} 
+                ,${droneDataObject.templ} 
+                ,${droneDataObject.temph} 
+                ,${droneDataObject.tof} 
+                ,${droneDataObject.h} 
+                ,${droneDataObject.bat} 
+                ,${droneDataObject.baro} 
+                ,${droneDataObject.time} 
+                ,${droneDataObject.agx} 
+                ,${droneDataObject.agy} 
+                ,${droneDataObject.agz})`
+
+
+
+                connection.query(query,function  (err, result, fields) {
+                    if (err) throw err;
+                    console.log("Data inserted")
+                                  
+                return res.status(200).send({type: "success", dataToFe});
+            });
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;

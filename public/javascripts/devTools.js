@@ -83,7 +83,7 @@ const keyPressHandler = (pressedKey)=>{
 
     switch (pressedKeyValue) {
         case "ArrowUp":
-            activeThis("up")
+            activeThis("forward")
             break;
         case "ArrowDown":
             activeThis("back")
@@ -157,8 +157,8 @@ const createPElementWithContent = (content)=>{
     return pElement
 }
 
-
-//setInterval(() => {loadDataFromBackend()}, 1000);
+//TODO SET THIS TO 1000
+setInterval(() => {loadDataFromBackend()}, 10000);
 
 const  loadDataFromBackend = ()=>{
     fetch(`sdkHandler/updateData`, {
@@ -171,4 +171,26 @@ const  loadDataFromBackend = ()=>{
             });
         })
         .catch((err) => console.log(err));
+}
+
+const submitSettings = (settingsElements)=>{
+    let droneSpeed = settingsElements.querySelector(`[name="droneSpeed"]`).value
+    let wifiSSID = settingsElements.querySelector(`[name="wifiSSID"]`).value
+    let wifiPassword = settingsElements.querySelector(`[name="wifiPassword"]`).value
+    let settings = {
+        droneSpeed, wifiSSID, wifiPassword
+    }
+
+        fetch(`/updateSettings`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ settings }),
+        })
+            .then((res) => {
+                res.json().then((data) => {
+                    console.log("Data saved")
+                });
+            })
+            .catch((err) => console.log(err));
+
 }
