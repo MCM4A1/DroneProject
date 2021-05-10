@@ -7,6 +7,7 @@ const sdkController = require('../controllers/sdkHandler');
 router.post('/', sdkController.submitSdk);
 router.post('/automatization', sdkController.submitAutoToSdk);
 router.post('/updateData', sdkController.updateDroneData);
+router.post('/updateSettings', sdkController.updateWifiSettings)
 
 
 module.exports = router;

@@ -7,7 +7,7 @@ const sendToSdk = (key) =>{
     })
         .then((res) => {
             res.json().then((data) => {
-                console.log("success")
+                console.log(data.droneRes)
             });
         })
         .catch((err) => console.log(err));

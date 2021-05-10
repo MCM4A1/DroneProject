@@ -2,7 +2,9 @@ const droneIp = "192.168.10.1"
 const portToCommand = "8889"
 const statePort = "8890"
 const dgram = require('dgram')
+const waitForX = require('waait')
 let droneData = "pitch:0;roll:0;yaw:0;vgx:0;vgy:0;vgz:0;templ:0;temph:0;tof:0;h:0;bat:0;baro:0;time:0;agx:0;agy:0;agz:0;";
+let droneRes = ""
 
 //SQL Stuff
 let mysql = require('mysql');
@@ -20,26 +22,21 @@ connection.connect(function(err) {
 const drone = dgram.createSocket('udp4')
 drone.bind(statePort)
 
-  
-  
-
 const droneCommandHandler = async (command) =>{
     console.log("Command sent to drone + length:  ",command, command.length)
     drone.send(command, 0, command.length, portToCommand, droneIp, errorHandler)
 
     drone.on('message', message =>{
         if(message.length>10)
-            droneData=`${message}`;
-        console.log(`DRONE: ${message}`)
-
+            droneData=`${message}`
+        else {
+            droneRes = `${message}`
+        }
         return message;
     });
 }
 
-
-
-//command, callback, length of command, port, host, errorhandler
-//drone.send(command, 0, '8', portToCommand, droneIp, errorHandler)
+//drone.send(command, callback, length of command, port, host, errorhandler)
 const errorHandler = (err) =>{
     if(err){
         console.error("Drone error")
@@ -68,7 +65,7 @@ exports.submitSdk = async (req, res, next) => {
                 case " ":
                     command="up 20"
                     break;
-                case "SHIFT":
+                case "Shift":
                     command="down 20"
                 break;
                 default:
@@ -77,12 +74,11 @@ exports.submitSdk = async (req, res, next) => {
                 }
         droneCommandHandler(command)                
                                     
-        return res.status(200).send({type: "success", key});
+        return res.status(200).send({type: "success",droneRes});
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
         return next(error);
-
     }
 };
 
@@ -90,17 +86,17 @@ exports.submitSdk = async (req, res, next) => {
 exports.submitAutoToSdk = async (req, res, next) => {
     try {
         const cardInputValues  = req.body.cardInputValues;
+        console.log(cardInputValues)
         for(let cardValue of cardInputValues){
-            console.log(cardValue)
-            await wait(500)
-            //droneCommandHandler(cardValue)
+                console.log(cardValue)
+                droneCommandHandler(cardValue)
+                await waitForX(1000)
         }
         return res.status(200).send({type: "success"});
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
         return next(error);
-
     }
 };
 
@@ -126,7 +122,10 @@ exports.updateDroneData = async (req, res, next) => {
         droneDataObject[`${arrayItemArray[0]}`] = arrayItemArray[1];
     }
     //droneDataObject.pitch.value, droneDataObject.roll.value, droneDataObject.yaw.value, droneDataObject.vgx.value, droneDataObject.vgy.value, droneDataObject.vgz.value, droneDataObject.templ.value, droneDataObject.templh.value, droneDataObject.tof.value, droneDataObject.h.value, droneDataObject.bat.value, droneDataObject.baro.value, droneDataObject.time.value, droneDataObject.agx.value, droneDataObject.agy.value, droneDataObject.agz.value
-
+    if(droneDataObject.baro=="0"){
+        console.log("Data NOT inserted, baro value=0")
+        return res.status(200).send({type: "fail", dataToFe});
+    }
         let query = `insert into flydata(pitch, roll, yaw, vgx, vgy, vgz, templ, temph, tof, h, bat, baro, time, agx, agy, agz) values(
                 ${droneDataObject.pitch}
                 ,${droneDataObject.roll}
@@ -145,8 +144,6 @@ exports.updateDroneData = async (req, res, next) => {
                 ,${droneDataObject.agy} 
                 ,${droneDataObject.agz})`
 
-
-
                 connection.query(query,function  (err, result, fields) {
                     if (err) throw err;
                     console.log("Data inserted")
@@ -159,3 +156,23 @@ exports.updateDroneData = async (req, res, next) => {
         return next(error);
     }
 };
+
+
+exports.updateWifiSettings = async (req,res) =>{
+    try {
+
+    const {settings} = req.body;
+    let {wifiSSID, wifiPassword} = settings;
+    console.log(`WIFI: ${wifiSSID}, ${wifiPassword}`)
+
+        droneCommandHandler(`ap ${wifiSSID} ${wifiPassword}`)
+                                    
+            
+        return res.status(200).send({type: "success"});
+    } catch (err) {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+        
+    }
+}

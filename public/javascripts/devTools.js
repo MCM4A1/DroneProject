@@ -1,21 +1,7 @@
-
-
-const logValues = (id, value)  =>{
-    console.log("logValues",id,value)
-}
-
-const handleResponseMessage = (message)=>{
-    if(message.type=="error")return true
-    else return false
-}
-
 const submitLogin  = (loginElement )=>{
     let username = loginElement.querySelector(`[id="username"]`).value
     let password = loginElement.querySelector(`[id="loginpass"]`).value
-
-
     let user = {username, password}
-
     fetch(`/loginSubmit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -26,20 +12,15 @@ const submitLogin  = (loginElement )=>{
                 if(data.ifSuccess==true)
                     window.location.href = "/";
                 else console.error("Wrong username or password")
-
-
             });
         })
         .catch((err) => console.log(err));
-
 }
 
 const submitRegister = (loginElement=>{
     console.log(loginElement)
     let username = loginElement.querySelector(`[id="username"]`).value
     let password = loginElement.querySelector(`[id="loginpass"]`).value
-
-
     let user = {username, password}
     console.log(user)
 
@@ -61,8 +42,6 @@ const submitRegister = (loginElement=>{
         .catch((err) => console.log(err));
 
 })
-
-
 
 const addKeyPressListener = () =>{
     if (document.querySelector(`.listener__trigger`)){
@@ -129,7 +108,7 @@ const loadBackendContent = () =>{
         .then((res) => {
             res.json().then((data) => {
                 console.log(data)
-                loadBackendDataOnPage(data.droneDataObjects)
+                loadBackendDataOnPage(data.result)
                 
             });
         })
@@ -138,14 +117,19 @@ const loadBackendContent = () =>{
 
 const loadBackendDataOnPage = (dataObjects) =>{
     let dataContentDiv = document.querySelector(".data__content")
-    console.log(dataObjects)
 
     for(let dataObject of dataObjects){
         let newRow = document.createElement("div")
         newRow.classList.add("data__flex")
-        for(let droneData of dataObject){
-            newRow.appendChild(createPElementWithContent(droneData))
-        }
+        console.log(dataObject)
+
+        let {agx, agy, agz, baro, bat, date, h, pitch, roll, temph, templ, time, username, vgx, vgy, vgz, yaw} = dataObject
+
+        let stringToDisplay = `Drone data:  agx: ${agx}, agy: ${agy}, agz: ${agz}, baro: ${baro}, bat: ${bat}, date: ${date}, h: ${h}, pitch: ${pitch}, roll: ${roll}, temph: ${temph}, templ: ${templ}, time: ${time}, username: ${username}, vgx: ${vgx}, vgy: ${vgy}, vgz: ${vgz}, yaw: ${yaw}`
+        
+
+        newRow.appendChild(createPElementWithContent(stringToDisplay))
+        
         dataContentDiv.appendChild(newRow)
     }
 
@@ -157,8 +141,22 @@ const createPElementWithContent = (content)=>{
     return pElement
 }
 
+
+
+var timer;
+
+function startLoading(){
+    timer = setInterval(loadDataFromBackend, 1000)
+}
+
+const stopLoading = ()=>{
+    clearInterval(timer);
+}
+
 //TODO SET THIS TO 1000
-setInterval(() => {loadDataFromBackend()}, 10000);
+
+
+
 
 const  loadDataFromBackend = ()=>{
     fetch(`sdkHandler/updateData`, {
@@ -167,21 +165,33 @@ const  loadDataFromBackend = ()=>{
     })
         .then((res) => {
             res.json().then((data) => {
+                if(data.type=="fail"){
+                    console.log("No value to insert into DB")
+                    return
+                }
                 changeControlHTMLContent(data.dataToFe)
             });
         })
         .catch((err) => console.log(err));
 }
 
+
+
+
+
 const submitSettings = (settingsElements)=>{
-    let droneSpeed = settingsElements.querySelector(`[name="droneSpeed"]`).value
     let wifiSSID = settingsElements.querySelector(`[name="wifiSSID"]`).value
     let wifiPassword = settingsElements.querySelector(`[name="wifiPassword"]`).value
-    let settings = {
-        droneSpeed, wifiSSID, wifiPassword
+    if(!wifiSSID || !wifiPassword){
+        console.error("Missing password or SSID")
+        return;
     }
+    let settings = {
+        wifiSSID, wifiPassword
+    }
+    console.log(settings)
 
-        fetch(`/updateSettings`, {
+        fetch(`sdkHandler/updateSettings`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ settings }),

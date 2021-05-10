@@ -10,6 +10,12 @@ block content
             input(type="text" value="land")
             button(onclick="addNewCard(this.parentElement)") Add
             button(onclick="removeThisCard(this.parentElement)") Remove
-    button(onclick="sendCommandsToSdk()") Send commands to drone
+    .control__grid__item(onclick="sendCommandsToSdk()" style="margin-bottom: 10px")
+        p Send commands to drone
     .control__grid__item(onclick=`sendToSdk("emergency"), activeThis("emergency")` name="emergency")
-            p(style="color: red") emergency
+            p(style="color: red") Emergency
+    .loading_buttons(style="margin-top: 10px; grid-template-columns: 50% 50%; width: 100%;")
+        .control__grid__item(onclick="startLoading()") 
+            p Start loading data
+        .control__grid__item(onclick="stopLoading()") 
+            p Stop loading data

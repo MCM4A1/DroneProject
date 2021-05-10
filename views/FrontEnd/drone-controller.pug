@@ -1,52 +1,37 @@
 include index.pug
-//-script(src='/javascripts/devTools.js')
-//-script(src='/javascripts/drone-controller.js')
-//-link(rel="stylesheet" type="text/css" href="/stylesheets/drone__controller.css")
 block mixins
     mixin createTrWithName(tdName)
         tr(name=tdName)
             td #{tdName}
             td 0 
+    mixin createGridItem(itemName, textContent, commandContent)
+        .control__grid__item(onclick=`sendToSdk("${commandContent}"), activeThis("${itemName}")` name=`${itemName}`)
+            p #{textContent}
 block content
-.content__wrap.listener__trigger
-    .controller__wrap
-        .special__controls 
-            label(for="customDroneInput") Custom commands
-            input(type="text" name="customDroneInput" onblur="sendToSdk(value)")
-    p To start moving use the arrow keys to change horizontal (X,Z positions)
-    p To change vertical position, use space to ascend or use shift to descend
-    a(href="https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf" target="_blank") User Guide
-    .display__grid 
-        .control__grid__item(onclick=`sendToSdk("battery?"), activeThis("battery")` name="battery")
-            p battery
+.content__wrap.listener__trigger(style="margin-top:30px")
+    .display__grid(style="margin-bottom: 50px")
         .control__grid__item(onclick=`sendToSdk("emergency"), activeThis("emergency")` name="emergency")
-            p(style="color: red") emergency
-        .control__grid__item(onclick=`sendToSdk("command"), activeThis("command")` name="command")
-            p command
-        .control__grid__item(onclick=`sendToSdk("takeoff"), activeThis("takeoff")` name="takeoff")
-            p takeoff
-        .control__grid__item(onclick=`sendToSdk("land"), activeThis("land")` name="land")
-            p land
-        .control__grid__item(onclick=`sendToSdk("stop"), activeThis("stop")` name="stop")
-            p stop
+            p(style="color: red") EMERGENCY
+        +createGridItem("takeoff", "Takeoff", "takeoff" )
+        +createGridItem("command", "Command", "command" )
+        +createGridItem("stop", "Stop immediately", "stop" )
+        +createGridItem("land", "Land", "land" )
+        .control__grid__item()
+            .special__controls 
+                label(for="customDroneInput") Custom commands
+                input(type="text" name="customDroneInput" onblur="sendToSdk(value)")
     .display__grid(style="margin-top: 20px")
-        .control__grid__item(onclick=`sendToSdk("ccw 90"), activeThis("turnccw")` name="turnccw")
-            p Turn anti clockwise 90
-        .control__grid__item(onclick=`sendToSdk("forward 20"), activeThis("forward")` name="forward")
-            p forward
-        .control__grid__item(onclick=`sendToSdk("cw 90"), activeThis("turncw")` name="turncw")
-            p Turn clockwise 90
+        +createGridItem("turnccw", "Turn anti clockwise 90", "ccw 90")
+        +createGridItem("forward", "Forward", "forward 30")
+        +createGridItem("turncw", "Turn clockwise 90", "cw 90")
     .display__grid(style="margin-top:20px")
-        .control__grid__item(onclick=`sendToSdk("left 20"), activeThis("left")` name="left")
-            p left
-        .control__grid__item(onclick=`sendToSdk("up 20"), activeThis("up")` name="up")
-            p up
-        .control__grid__item(onclick=`sendToSdk("right 20"), activeThis("right")` name="right")
-            p right
-        .control__grid__item(onclick=`sendToSdk("down 20"), activeThis("down")` name="down")
-            p down
-        .control__grid__item(onclick=`sendToSdk("back 20"), activeThis("back")` name="back")
-            p back
+        +createGridItem("left", "Left", "left 30")
+        +createGridItem("up", "Up", "up 20")
+        +createGridItem("right", "Right", "right 30")
+        +createGridItem("down", "Down", "down 30")
+        +createGridItem("back", "Back", "back 30")
+        .control__grid__item(onclick=`window.location='https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf'` target="_blank")
+            p User Manual (Link)
     table.socketContent(name="webSocketContent") 
         tr(name="firstRow")
             td Data 
@@ -66,34 +51,8 @@ block content
         +createTrWithName("agx")
         +createTrWithName("agy")
         +createTrWithName("agz")
-
-
-    
-
-
-
-
-
-//-
-    .controllerPWrap(onclick="letsPlay()")
-            p This is the drone controllerm, click to play
-    p X, Y, Z Positions
-    .drone-position
-        input(type="number" name="ypos" value="0") 
-        input(type="number" name="xpos" value="0") 
-        input(type="number" name="zpos" value="0") 
-    .control-buttons
-        .btn__groups
-            button(id="forwardbtn" onclick=`droneControlMain("forward")`) Forward
-            button(id="backbtn" onclick=`droneControlMain("back")`) Back
-        .btn__groups
-            button(id="leftbtn" onclick=`droneControlMain("left")`) Left
-            button(id="rightbtn" onclick=`droneControlMain("right")`) Right
-        .btn__groups
-            button(id="upbtn" onclick=`droneControlMain("up")`) Up
-            button(id="downbtn" onclick=`droneControlMain("down")`) Down
-
-    .submit__sdk__form
-        label(for="sdkSubmit") SDK
-        input(name="sdkSubmit" type="text") 
-        button(id="sdkButton" onclick="sendToSdk(this.parentElement)" ) Submit
+    .loading_buttons(style="margin-top: 10px")
+        .control__grid__item(onclick="startLoading()") 
+            p Start loading data
+        .control__grid__item(onclick="stopLoading()") 
+            p Stop loading data

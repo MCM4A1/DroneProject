@@ -15,20 +15,30 @@ exports.getIndex = (req, res) => {
 }
 
 exports.sendData = async (req,res) =>{
-    try {
-        let droneDataObjects = []
-        let dataObj = "“pitch:%d;roll:%d;yaw:%d;vgx:%d;vgy%d;vgz:%d;templ:%d;temph:%d;tof:%d;h:%d;bat:%d;baro:%.2f; time:%d;agx:%.2f;agy:%.2f;agz:%.2f;".split(";")
-        console.table(dataObj)
+        //let droneDataObjects = []
+        //let dataObj = "“pitch:%d;roll:%d;yaw:%d;vgx:%d;vgy%d;vgz:%d;templ:%d;temph:%d;tof:%d;h:%d;bat:%d;baro:%.2f; time:%d;agx:%.2f;agy:%.2f;agz:%.2f;".split(";")
+        //console.table(dataObj)
 
-        for(let i=0; i<Math.floor(Math.random()*10); i++)
-            droneDataObjects.push(dataObj)
+        //for(let i=0; i<Math.floor(Math.random()*10); i++)
+        //    droneDataObjects.push(dataObj)
 
+        let query = `select * from flydata`
 
-    return res.status(200).send({type: "success", droneDataObjects });
+ try {
+        connection.query(query,function  (err, result, fields) {
+            if (err) throw err;
+                if(result.length>0){
+                    return res.status(200).send({type: "success", result});
+                }
+                          
+        return res.status(200).send({type: "success", ifSuccess});
+                                    
+        });
     } catch (err) {
         const error = new Error(err);
         error.httpStatusCode = 500;
         return next(error);
+        
     }
 
 }
@@ -92,3 +102,4 @@ exports.registerHandler = async (req,res) =>{
         
     }
 }
+
